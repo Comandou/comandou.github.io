@@ -3,7 +3,7 @@
 // nada se perde sem sinal; o id do envio, criado antes da primeira tentativa, evita duplicar.
 import * as banco from "./banco.js";
 import { b64url, deB64url, derivar, novoParDeChaves, uuid } from "./cripto.js";
-import { aoMudar, chamar, chaveDaOrigem, configurar, ErroDoApp, estado as rede, parear, sondarRotas } from "./rede.js";
+import { aoMudar, chamar, chaveDaOrigem, configurar, enderecosParaParear, ErroDoApp, estado as rede, parear, sondarRotas } from "./rede.js";
 
 const raiz = document.getElementById("app");
 const caixaDeAviso = document.getElementById("aviso");
@@ -99,7 +99,7 @@ async function parearCom(codigo, chavePc, ips, porta) {
   try {
     const par = await novoParDeChaves();
     const publicaDoPc = typeof chavePc === "string" ? deB64url(chavePc) : chavePc;
-    const resposta = await parear(location.origin, par.publica, await derivar(par.privada, publicaDoPc, "parear"), codigo, nomeDoAparelho());
+    const resposta = await parear(enderecosParaParear(ips, porta), par.publica, await derivar(par.privada, publicaDoPc, "parear"), codigo, nomeDoAparelho());
     s.aparelho = {
       id: resposta.aparelho, chavePc: b64url(publicaDoPc), ips: resposta.ips ?? ips, porta: resposta.porta ?? porta, restaurante: resposta.restaurante,
       privada: par.privada, chamadas: await derivar(par.privada, publicaDoPc, "chamadas"),

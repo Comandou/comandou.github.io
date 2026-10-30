@@ -27,7 +27,7 @@ const origemEhLocal = () => /^(localhost|127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|
 
 // Cópia estática do app (GitHub Pages, sem túnel): ali não há servidor, só os arquivos; os
 // pedidos vão sempre direto ao PC pela rede local.
-const origemEstatica = () => location.hostname.endsWith(".github.io");
+export const origemEstatica = () => location.hostname.endsWith(".github.io");
 
 function candidatas() {
   const lista = [];
@@ -139,15 +139,43 @@ export async function chamar(acao, dados = {}, sessao = null) {
   throw new ErroDoApp("Sem conexão com o restaurante.", { rede: true });
 }
 
+/**
+ * Onde parear: na cópia estática não há servidor, então vai direto aos IPs do PC (os do QR); com
+ * túnel ou aberto pelo próprio PC, pela origem.
+ */
+export function enderecosParaParear(ips, porta) {
+  if (!origemEstatica()) return [location.origin];
+  if (!ips.length) throw new ErroDoApp("Aqui o código sozinho não basta: leia o QR do caixa com a câmera do celular.");
+  return ips.map((ip) => `http://${ip}:${porta}`);
+}
+
+const semPc = () => /iPhone|iPad/.test(navigator.userAgent) && origemEstatica()
+  ? "O iPhone ainda não conecta direto ao computador pela rede local (o Safari bloqueia). Por enquanto, use um celular Android."
+  : "Não achei o computador do restaurante. Confira se o celular está no mesmo Wi-Fi do PC e, se o navegador perguntar, permita o acesso à rede local.";
+
 /** Pareamento: cifra o código com a chave combinada com o PC (a do QR) e recebe o id do aparelho. */
-export async function parear(base, publicaDoCelular, chaveDeParear, codigo, nome) {
+export async function parear(bases, publicaDoCelular, chaveDeParear, codigo, nome) {
+  for (const base of bases) {
+    try {
+      return await parearEm(base, publicaDoCelular, chaveDeParear, codigo, nome);
+    } catch (e) {
+      if (e instanceof ErroDoApp) throw e; // o PC respondeu: não adianta tentar outro endereço
+    }
+  }
+  throw new ErroDoApp(semPc(), { rede: true });
+}
+
+async function parearEm(base, publicaDoCelular, chaveDeParear, codigo, nome) {
   const n = numero();
+  const local = base !== location.origin;
   const corpo = { chave: b64url(publicaDoCelular), ...(await fechar(chaveDeParear, "parear", { t: Date.now() + estado.desvio, n, codigo, nome })) };
-  const r = await buscar(`${base}/api/garcom/parear`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(corpo) }, LIMITE_CHAMADA_INTERNET, false);
+  // Tempo folgado: na primeira vez o Chrome pergunta se pode acessar a rede local.
+  const r = await buscar(`${base}/api/garcom/parear`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(corpo) },
+    local ? 30000 : LIMITE_CHAMADA_INTERNET, local);
   const json = await r.json().catch(() => ({}));
   if (r.status === 400 && json.erro === "hora" && json.agora) {
     estado.desvio = json.agora - Date.now();
-    return parear(base, publicaDoCelular, chaveDeParear, codigo, nome);
+    return parearEm(base, publicaDoCelular, chaveDeParear, codigo, nome);
   }
   if (!r.ok) throw new ErroDoApp(json.mensagem ?? "Não foi possível parear. Leia o QR de novo.");
   const resposta = await abrir(chaveDeParear, "parear", json);
@@ -158,7 +186,9 @@ export async function parear(base, publicaDoCelular, chaveDeParear, codigo, nome
 
 /** Chave do PC pela origem (para quem digita o código em vez de ler o QR). */
 export async function chaveDaOrigem() {
+  if (origemEstatica()) throw new ErroDoApp("Aqui o código sozinho não basta: leia o QR do caixa com a câmera do celular.");
   const r = await buscar(`${location.origin}/api/garcom/saude`, {}, LIMITE_INTERNET, false);
-  const s = await r.json();
+  const s = await r.json().catch(() => null);
+  if (!r.ok || !s?.chave) throw new ErroDoApp("O computador do restaurante não respondeu. Leia o QR do caixa com a câmera.");
   return deB64url(s.chave);
 }

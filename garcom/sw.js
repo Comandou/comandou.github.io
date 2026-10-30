@@ -1,7 +1,7 @@
 // Service worker do app do garçom: guarda os arquivos do app para ele abrir na hora, mesmo sem
 // sinal. As chamadas ao PC (/api) nunca passam pelo cache.
 // Ao mudar qualquer arquivo do app, troque a VERSAO: o navegador baixa a nova e apaga a antiga.
-const VERSAO = "garcom-2026-10-29.1";
+const VERSAO = "garcom-2026-10-30.1";
 const ARQUIVOS = [
   "./", "index.html", "app.css", "app.js", "rede.js", "cripto.js", "banco.js", "manifest.webmanifest",
   "icone-192.png", "icone-512.png", "icone-apple.png", "fontes/bricolage-500.woff2", "fontes/bricolage-700.woff2",
