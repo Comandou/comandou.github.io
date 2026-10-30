@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Política de Privacidade</title>
+  <link rel="icon" href="garcom/icone-192.png">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+  <header class="topo"><div class="faixa">
+    <a class="marca" href="./"><img src="garcom/icone-192.png" alt="">Comandou</a>
+    <nav><a href="privacidade.html">Privacidade</a><a href="termos.html">Termos de uso</a></nav>
+  </div></header>
+
+  <main>
+    <h1>Política de Privacidade</h1>
+    <p class="data">Atualizada em 29 de outubro de 2026.</p>
+
+    <p>Esta política explica quais dados o Comandou (sistema de ponto de venda para restaurantes)
+      trata, para quê e com quem compartilha, nos termos da Lei Geral de Proteção de Dados (Lei nº
+      13.709/2018). Ela vale para o programa instalado no computador do restaurante, para o app do
+      garçom e para os serviços em nuvem do Comandou.</p>
+
+    <h2>1. Dados que ficam no computador do restaurante</h2>
+    <p>Cardápio, mesas, comandas, pedidos, pagamentos, caixa, estoque, funcionários, notas fiscais
+      e configurações ficam no banco de dados do próprio computador do caixa. Esses dados são do
+      restaurante e não são enviados ao Comandou, exceto na forma de backup cifrado descrito no
+      item 4. O certificado digital (A1) do restaurante fica só nesse computador, protegido pelo
+      Windows.</p>
+
+    <h2>2. Dados tratados na nuvem do Comandou</h2>
+    <p>Para a assinatura e a licença de uso, guardamos em servidores no Brasil:</p>
+    <ul>
+      <li>dados da empresa assinante: CNPJ, razão social, nome fantasia, e-mail e telefone de contato;</li>
+      <li>plano contratado e situação da assinatura;</li>
+      <li>identificação de cada computador ativado: nome do computador, uma impressão digital técnica
+        do equipamento e a versão do Comandou;</li>
+      <li>sinais periódicos de funcionamento (data, versão e situação da licença), apagados após 90 dias.</li>
+    </ul>
+    <p>Não coletamos dados dos clientes do restaurante (consumidores) na nuvem.</p>
+
+    <h2>3. Pagamentos</h2>
+    <p>A cobrança da assinatura é feita pelo Asaas (Asaas Gestão Financeira S.A.), que recebe os dados
+      da empresa necessários para emitir boletos, Pix e cobranças no cartão. Dados de cartão são
+      digitados diretamente no Asaas e não passam pelo Comandou.</p>
+
+    <h2>4. Google Drive (backup) e uso dos dados do Google</h2>
+    <p>O backup no Google Drive é opcional e só é ativado quando o próprio restaurante conecta a sua
+      conta Google no Comandou. Pedimos apenas duas permissões:</p>
+    <ul>
+      <li><strong>Ver e gerenciar os arquivos do Google Drive criados pelo Comandou</strong>
+        (<code>drive.file</code>): usada para criar um único arquivo de backup no Drive da conta
+        conectada, substituí-lo pelas versões novas e baixá-lo para restaurar os dados. O Comandou
+        <strong>não vê</strong> nenhum outro arquivo do Drive.</li>
+      <li><strong>Ver o endereço de e-mail da conta</strong> (<code>userinfo.email</code>): usada só para
+        mostrar no Comandou qual conta Google está conectada.</li>
+    </ul>
+    <p>O arquivo de backup é cifrado (AES-256-GCM) antes de sair do computador do restaurante. Para
+      que um computador novo do mesmo restaurante consiga restaurar o backup sozinho, a autorização do
+      Google (token de atualização) e a chave do backup ficam guardadas, também cifradas, na nuvem do
+      Comandou, vinculadas à assinatura daquele restaurante.</p>
+    <div class="destaque"><p>O uso e a transferência, para qualquer outro aplicativo, de informações
+      recebidas das APIs do Google seguem a
+      <a href="https://developers.google.com/terms/api-services-user-data-policy">Política de Dados do
+      Usuário dos Serviços de API do Google</a>, incluindo os requisitos de Uso Limitado. Os dados do
+      Google não são vendidos, não são usados para publicidade, não são usados para treinar modelos de
+      inteligência artificial e não são lidos por pessoas, exceto com autorização expressa do
+      restaurante para suporte ou quando exigido por lei.</p></div>
+    <p>Para desconectar: no Comandou, <em>Configurações → Google Drive → Desconectar</em>. Também é
+      possível revogar o acesso a qualquer momento em
+      <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a>.</p>
+
+    <h2>5. Com quem compartilhamos</h2>
+    <p>Somente com os fornecedores necessários para o serviço funcionar: Supabase (hospedagem da nuvem
+      do Comandou, região São Paulo), Asaas (cobrança), Google (backup no Drive, quando conectado) e
+      GitHub (distribuição das atualizações do programa, sem dados de clientes). Não vendemos dados.</p>
+
+    <h2>6. Por quanto tempo guardamos</h2>
+    <p>Os dados da assinatura ficam guardados enquanto ela existir e pelo prazo exigido pela legislação
+      fiscal e contábil depois do cancelamento. A autorização do Google e a chave do backup são
+      apagadas quando o restaurante desconecta o Drive ou pede a exclusão.</p>
+
+    <h2>7. Seus direitos</h2>
+    <p>O titular dos dados pode pedir confirmação do tratamento, acesso, correção, portabilidade e
+      exclusão dos dados, e revogar consentimentos, pelo e-mail abaixo. Respondemos em até 15 dias.</p>
+
+    <h2>8. Segurança</h2>
+    <p>Comunicação sempre por HTTPS, dados sensíveis cifrados, acesso administrativo restrito e
+      licenças assinadas digitalmente.</p>
+
+    <h2>9. Contato</h2>
+    <p>Encarregado pelo tratamento de dados: <a href="mailto:jgjgjgqsp@gmail.com">jgjgjgqsp@gmail.com</a></p>
+  </main>
+
+  <footer><div class="faixa">
+    <span>© Comandou</span><a href="privacidade.html">Política de Privacidade</a><a href="termos.html">Termos de uso</a>
+  </div></footer>
+</body>
+</html>
